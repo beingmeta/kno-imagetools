@@ -1,0 +1,5 @@
+kno-imagetools (1910.0) stable; urgency=medium
+
+  * Initial create of separate dpkg for imagetools cmodule
+
+ -- Ken Haase <kh@beingmeta.com>  Tues, 7 Jan 2020 19:06:13 +0000
