@@ -47,7 +47,7 @@ default: qrcode.so exif.so imagick.so
 		$^
 	@$(MSG) MACLIBTOOL  $@ $<
 
-TAGS: exif.c qrcode.c imagemagick.c
+TAGS: exif.c qrcode.c imagick.c
 	etags -o TAGS $<
 
 install:
@@ -73,7 +73,7 @@ fresh:
 	make clean
 	make default
 
-debian/changelog: makefile qrcode.c exif.c imagemagick.c \
+debian/changelog: makefile qrcode.c exif.c imagick.c \
 		  debian/rules debian/control debian/changelog.base
 	cat debian/changelog.base | etc/gitchangelog kno-imagetools > $@
 
