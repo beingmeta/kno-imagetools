@@ -102,7 +102,7 @@ dist/debian.updated: dist/debian.signed
 
 update-apt: dist/debian.updated
 
-debclean:
+debclean: clean
 	rm -rf ../kno-imagetools_* ../kno-imagetools-* debian dist/debian.*
 
 debfresh:
