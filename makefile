@@ -73,11 +73,17 @@ fresh:
 	make clean
 	make default
 
-debian/changelog: makefile qrcode.c exif.c imagick.c \
-		  debian/rules debian/control debian/changelog.base
+debian: imagick.c qrcode.c exif.c makefile \
+	dist/debian/rules dist/debian/control \
+	dist/debian/changelog.base
+	rm -rf debian
+	cp -r dist/debian debian
+	cat debian/changelog.base | etc/gitchangelog kno-imagetools > debian/changelog
+
+debian/changelog: debian imagick.c qrcode.c exif.c makefile
 	cat debian/changelog.base | etc/gitchangelog kno-imagetools > $@
 
-debian.built: debian/rules debian/control debian/changelog
+debian.built: imagick.c qrcode.c exif.c makefile debian debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
 	touch $@
 
