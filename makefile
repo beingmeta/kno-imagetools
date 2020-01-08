@@ -31,7 +31,7 @@ MOD_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${MOD_RELEASE}
 GPGID           ::= FE1BC737F9F323D732AA26330620266BE5AFF294
 SUDO            ::= $(shell which sudo)
 
-default: qrcode.so exif.so imagick.so
+default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 
 %.o: %.c makefile
 	@$(CC) $(CFLAGS) -o $@ -c $<
@@ -50,7 +50,7 @@ default: qrcode.so exif.so imagick.so
 TAGS: exif.c qrcode.c imagick.c
 	etags -o TAGS $<
 
-install:
+install: build
 	@for mod_name in qrcode exif imagick; do \
 	  ${SUDO} ${SYSINSTALL} $${mod_name}.${libsuffix} \
 				 ${CMODULES}/$${mod_name}.so.${MOD_VERSION} && \
