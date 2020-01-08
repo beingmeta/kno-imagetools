@@ -28,8 +28,8 @@ MOD_NAME	::= imagetools
 MOD_RELEASE     ::= $(shell cat etc/release)
 MOD_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${MOD_RELEASE}
 
-GPGID           ::= FE1BC737F9F323D732AA26330620266BE5AFF294
-SUDO            ::= $(shell which sudo)
+GPGID = FE1BC737F9F323D732AA26330620266BE5AFF294
+SUDO  = $(shell which sudo)
 
 default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 
@@ -103,7 +103,7 @@ dist/debian.updated: dist/debian.signed
 update-apt: dist/debian.updated
 
 debclean:
-	rm -rf ../kno-imagetools_* ../kno-imagetools-* debian
+	rm -rf ../kno-imagetools_* ../kno-imagetools-* debian dist/debian.*
 
 debfresh:
 	make debclean
