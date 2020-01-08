@@ -81,7 +81,10 @@ debian: imagick.c qrcode.c exif.c makefile \
 	cat debian/changelog.base | etc/gitchangelog kno-imagetools > debian/changelog
 
 debian/changelog: debian imagick.c qrcode.c exif.c makefile
-	cat debian/changelog.base | etc/gitchangelog kno-imagetools > $@
+	cat debian/changelog.base | etc/gitchangelog kno-imagetools > $@.tmp
+	if diff debian/changelog debian/changelog.tmp 2>&1 > /dev/null; then \
+	  mv debian/changelog.tmp debian/changelog; \
+	else rm debian/changelog.tmp; fi
 
 debian.built: imagick.c qrcode.c exif.c makefile debian debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
@@ -90,6 +93,8 @@ debian.built: imagick.c qrcode.c exif.c makefile debian debian/changelog
 debian.signed: debian.built
 	debsign --re-sign -k${GPGID} ../kno-imagetools_*.changes && \
 	touch $@
+
+dpkg dpkgs: debian.signed
 
 debian.updated: debian.signed
 	dupload -c ./debian/dupload.conf --nomail --to bionic ../kno-imagetools_*.changes && touch $@
