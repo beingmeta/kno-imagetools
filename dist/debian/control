@@ -10,6 +10,5 @@ Package: kno-imagetools
 Section: libdevel
 Architecture: any
 Depends: kno-core, libexif12, libmagickwand | libmagickwand-6.q16-6 | libmagickwand-6.q16-3 | libmagickwand-6.q16-2  | libmagickwand5, libqrencode4 | libqrencode3 
-Conflicts: kno-sundown
 Description: Imagetools module for KNO
 
