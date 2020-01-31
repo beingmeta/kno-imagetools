@@ -25,9 +25,9 @@ DPKG_NAME	::= $(shell ./etc/dpkgname)
 MKSO		::= $(CC) -shared $(CFLAGS) $(LDFLAGS) $(LIBS)
 MSG		::= echo
 SYSINSTALL      ::= /usr/bin/install -c
-MOD_NAME	::= imagetools
-MOD_RELEASE     ::= $(shell cat etc/release)
-MOD_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${MOD_RELEASE}
+PKG_NAME	::= imagetools
+PKG_RELEASE     ::= $(shell cat etc/release)
+PKG_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${PKG_RELEASE}
 APKREPO         ::= $(shell ${KNOCONFIG} apkrepo)
 
 GPGID = FE1BC737F9F323D732AA26330620266BE5AFF294
@@ -60,18 +60,18 @@ ${CMODULES}:
 install: build ${CMODULES}
 	@for mod_name in qrcode exif imagick; do \
 	  ${SUDO} ${SYSINSTALL} $${mod_name}.${libsuffix} \
-				 ${CMODULES}/$${mod_name}.so.${MOD_VERSION} && \
-	  echo === Installed ${CMODULES}/$${mod_name}.so.${MOD_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${MOD_VERSION} \
+				 ${CMODULES}/$${mod_name}.so.${PKG_VERSION} && \
+	  echo === Installed ${CMODULES}/$${mod_name}.so.${PKG_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${PKG_VERSION} \
 			${CMODULES}/$${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR} && \
 	  echo === Linked ${CMODULES}/${m	od_name}.so.${KNO_MAJOR}.${KNO_MINOR} \
-		to $${mod_name}.so.${MOD_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${MOD_VERSION} \
+		to $${mod_name}.so.${PKG_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${PKG_VERSION} \
 			${CMODULES}/$${mod_name}.so.${KNO_MAJOR} && \
 	  echo === Linked ${CMODULES}/$${mod_name}.so.${KNO_MAJOR} \
-		to $${mod_name}.so.${MOD_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${MOD_VERSION} ${CMODULES}/$${mod_name}.so && \
-	  echo === Linked ${CMODULES}/$${mod_name}.so to $${mod_name}.so.${MOD_VERSION}; \
+		to $${mod_name}.so.${PKG_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${PKG_VERSION} ${CMODULES}/$${mod_name}.so && \
+	  echo === Linked ${CMODULES}/$${mod_name}.so to $${mod_name}.so.${PKG_VERSION}; \
 	done;
 
 clean:
@@ -127,11 +127,11 @@ staging/alpine:
 staging/alpine/APKBUILD: dist/alpine/APKBUILD staging/alpine
 	cp dist/alpine/APKBUILD staging/alpine
 
-staging/alpine/kno-${MOD_NAME}.tar: staging/alpine
-	git archive --prefix=kno-${MOD_NAME}/ -o staging/alpine/kno-${MOD_NAME}.tar HEAD
+staging/alpine/kno-${PKG_NAME}.tar: staging/alpine
+	git archive --prefix=kno-${PKG_NAME}/ -o staging/alpine/kno-${PKG_NAME}.tar HEAD
 
 dist/alpine.done: staging/alpine/APKBUILD makefile \
-	staging/alpine/kno-${MOD_NAME}.tar ${APKREPO}/dist/x86_64
+	staging/alpine/kno-${PKG_NAME}.tar ${APKREPO}/dist/x86_64
 	cd staging/alpine; \
 		abuild -P ${APKREPO} clean cleancache cleanpkg && \
 		abuild checksum && \
