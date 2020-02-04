@@ -29,6 +29,8 @@ PKG_NAME	::= imagetools
 PKG_RELEASE     ::= $(shell cat etc/release)
 PKG_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${PKG_RELEASE}
 APKREPO         ::= $(shell ${KNOCONFIG} apkrepo)
+CODENAME	::= $(shell ${KNOCONFIG} codename)
+RELSTATUS	::= $(shell ${KNOCONFIG} status)
 
 GPGID = FE1BC737F9F323D732AA26330620266BE5AFF294
 SUDO  = $(shell which sudo)
@@ -87,12 +89,13 @@ debian: imagick.c qrcode.c exif.c makefile \
 	cp -r dist/debian debian
 
 debian/changelog: debian imagick.c qrcode.c exif.c makefile
-	cat debian/changelog.base | etc/gitchangelog kno-imagetools > $@.tmp
-	@if test ! -f debian/changelog; then \
-	   mv debian/changelog.tmp debian/changelog; \
-	 elif diff debian/changelog debian/changelog.tmp 2>&1 > /dev/null; then \
-	   mv debian/changelog.tmp debian/changelog; \
-	 else rm debian/changelog.tmp; fi
+	cat debian/changelog.base | \
+		knomod debchangelog kno-${PKG_NAME} ${CODENAME} ${RELSTATUS} > $@.tmp
+	if test ! -f debian/changelog; then \
+	  mv debian/changelog.tmp debian/changelog; \
+	elif diff debian/changelog debian/changelog.tmp 2>&1 > /dev/null; then \
+	  mv debian/changelog.tmp debian/changelog; \
+	else rm debian/changelog.tmp; fi
 
 dist/debian.built: imagick.c qrcode.c exif.c makefile debian debian/changelog
 	dpkg-buildpackage -sa -us -uc -b -rfakeroot && \
