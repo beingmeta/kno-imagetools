@@ -117,7 +117,7 @@ debclean: clean
 
 debfresh:
 	make debclean
-	make dist/debian.built
+	make dist/debian.signed
 
 # Alpine packaging
 
