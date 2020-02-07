@@ -1,4 +1,5 @@
 KNOCONFIG       ::= knoconfig
+KNOBUILD          = knobuild
 prefix		::= $(shell ${KNOCONFIG} prefix)
 libsuffix	::= $(shell ${KNOCONFIG} libsuffix)
 KNO_CFLAGS	::= -I. -fPIC $(shell ${KNOCONFIG} cflags)
@@ -28,9 +29,12 @@ SYSINSTALL      ::= /usr/bin/install -c
 PKG_NAME	::= imagetools
 PKG_RELEASE     ::= $(shell cat etc/release)
 PKG_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${PKG_RELEASE}
-APKREPO         ::= $(shell ${KNOCONFIG} apkrepo)
 CODENAME	::= $(shell ${KNOCONFIG} codename)
-RELSTATUS	::= $(shell ${KNOCONFIG} status)
+RELSTATUS	::= $(shell ${KNOBUILD} BUILDSTATUS stable)
+DEFAULT_ARCH    ::= $(shell /bin/arch)
+ARCH            ::= $(shell ${KNOBUILD} ARCH ${DEFAULT_ARCH})
+APKREPO         ::= $(shell ${KNOBUILD} getbuildopt APKREPO /srv/repo/kno/apk)
+APK_ARCH_DIR    ::= ${APKREPO}/staging/${ARCH}
 
 GPGID = FE1BC737F9F323D732AA26330620266BE5AFF294
 SUDO  = $(shell which sudo)
@@ -81,6 +85,11 @@ clean:
 fresh:
 	make clean
 	make default
+
+gitup gitup-trunk:
+	git checkout trunk && git pull
+
+# Debian packaging
 
 debian: imagick.c qrcode.c exif.c makefile \
 	dist/debian/rules dist/debian/control \
@@ -134,7 +143,8 @@ staging/alpine/kno-${PKG_NAME}.tar: staging/alpine
 	git archive --prefix=kno-${PKG_NAME}/ -o staging/alpine/kno-${PKG_NAME}.tar HEAD
 
 dist/alpine.done: staging/alpine/APKBUILD makefile \
-	staging/alpine/kno-${PKG_NAME}.tar ${APKREPO}/dist/x86_64
+	staging/alpine/kno-${PKG_NAME}.tar
+	if [ ! -d ${APK_ARCH_DIR} ]; then mkdir -p ${APK_ARCH_DIR}; fi;
 	cd staging/alpine; \
 		abuild -P ${APKREPO} clean cleancache cleanpkg && \
 		abuild checksum && \
