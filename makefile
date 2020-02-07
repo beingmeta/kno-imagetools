@@ -1,5 +1,6 @@
 KNOCONFIG       ::= knoconfig
 KNOBUILD          = knobuild
+
 prefix		::= $(shell ${KNOCONFIG} prefix)
 libsuffix	::= $(shell ${KNOCONFIG} libsuffix)
 KNO_CFLAGS	::= -I. -fPIC $(shell ${KNOCONFIG} cflags)
@@ -23,21 +24,22 @@ KNO_MAJOR	::= $(shell ${KNOCONFIG} major)
 KNO_MINOR	::= $(shell ${KNOCONFIG} minor)
 PKG_RELEASE	::= $(cat ./etc/release)
 DPKG_NAME	::= $(shell ./etc/dpkgname)
-MKSO		::= $(CC) -shared $(CFLAGS) $(LDFLAGS) $(LIBS)
-MSG		::= echo
-SYSINSTALL      ::= /usr/bin/install -c
-PKG_NAME	::= imagetools
+SUDO            ::= $(shell which sudo)
+
+MKSO		  = $(CC) -shared $(CFLAGS) $(LDFLAGS) $(LIBS)
+MSG		  = echo
+SYSINSTALL        = /usr/bin/install -c
+
+PKG_NAME	  = imagetools
+GPGID             = FE1BC737F9F323D732AA26330620266BE5AFF294
+PKG_VERSION	  = ${KNO_MAJOR}.${KNO_MINOR}.${PKG_RELEASE}
 PKG_RELEASE     ::= $(shell cat etc/release)
-PKG_VERSION	::= ${KNO_MAJOR}.${KNO_MINOR}.${PKG_RELEASE}
 CODENAME	::= $(shell ${KNOCONFIG} codename)
-RELSTATUS	::= $(shell ${KNOBUILD} BUILDSTATUS stable)
+RELSTATUS	::= $(shell ${KNOBUILD} getbuildopt BUILDSTATUS stable)
 DEFAULT_ARCH    ::= $(shell /bin/arch)
 ARCH            ::= $(shell ${KNOBUILD} ARCH ${DEFAULT_ARCH})
 APKREPO         ::= $(shell ${KNOBUILD} getbuildopt APKREPO /srv/repo/kno/apk)
-APK_ARCH_DIR    ::= ${APKREPO}/staging/${ARCH}
-
-GPGID = FE1BC737F9F323D732AA26330620266BE5AFF294
-SUDO  = $(shell which sudo)
+APK_ARCH_DIR      = ${APKREPO}/staging/${ARCH}
 
 default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 
@@ -129,9 +131,6 @@ debfresh:
 	make dist/debian.signed
 
 # Alpine packaging
-
-${APKREPO}/dist/x86_64:
-	@install -d $@
 
 staging/alpine:
 	@install -d $@
