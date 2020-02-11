@@ -94,11 +94,14 @@ gitup gitup-trunk:
 
 # Debian packaging
 
+DEBFILES=changelog.base compat control copyright dirs docs files install
+
 debian: imagick.c qrcode.c exif.c makefile \
 	dist/debian/rules dist/debian/control \
 	dist/debian/changelog.base
 	rm -rf debian
 	cp -r dist/debian debian
+	cd debian; chmod a-x ${DEBFILES}
 
 debian/changelog: debian imagick.c qrcode.c exif.c makefile
 	cat debian/changelog.base | \
