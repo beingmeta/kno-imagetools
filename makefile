@@ -129,6 +129,9 @@ dist/debian.updated: dist/debian.signed
 
 update-apt: dist/debian.updated
 
+debinstall: dist/debian.signed
+	${SUDO} dpkg -i ../kno-imagetools_${PKG_VERSION}*.deb
+
 debclean: clean
 	rm -rf ../kno-imagetools_* ../kno-imagetools-* debian dist/debian.*
 
