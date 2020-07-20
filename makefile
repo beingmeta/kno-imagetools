@@ -22,18 +22,23 @@ INCLUDE		::= $(shell ${KNOCONFIG} include)
 KNO_VERSION	::= $(shell ${KNOCONFIG} version)
 KNO_MAJOR	::= $(shell ${KNOCONFIG} major)
 KNO_MINOR	::= $(shell ${KNOCONFIG} minor)
-PKG_RELEASE	::= $(cat ./etc/release)
-DPKG_NAME	::= $(shell ./etc/dpkgname)
+PKG_VERSION     ::= $(shell cat ./version)
+PKG_MAJOR       ::= $(shell cat ./version | cut -d. -f1)
+FULL_VERSION    ::= ${KNO_MAJOR}.${KNO_MINOR}.${PKG_VERSION}
+PATCHLEVEL      ::= $(shell u8_gitpatchcount ./version)
+PATCH_VERSION   ::= ${FULL_VERSION}-${PATCHLEVEL}
+
+PKG_NAME	::= imagetools
+DPKG_NAME	::= ${PKG_NAME}_${PATCH_VERSION}
+
 SUDO            ::= $(shell which sudo)
 
 MKSO		  = $(CC) -shared $(CFLAGS) $(LDFLAGS) $(LIBS)
 MSG		  = echo
 SYSINSTALL        = /usr/bin/install -c
 
-PKG_NAME	  = imagetools
+
 GPGID             = FE1BC737F9F323D732AA26330620266BE5AFF294
-PKG_VERSION	  = ${KNO_MAJOR}.${KNO_MINOR}.${PKG_RELEASE}
-PKG_RELEASE     ::= $(shell cat etc/release)
 CODENAME	::= $(shell ${KNOCONFIG} codename)
 REL_BRANCH	::= $(shell ${KNOBUILD} getbuildopt REL_BRANCH current)
 REL_STATUS	::= $(shell ${KNOBUILD} getbuildopt REL_STATUS stable)
@@ -69,18 +74,22 @@ ${CMODULES}:
 install: build ${CMODULES}
 	@for mod_name in qrcode exif imagick; do \
 	  ${SUDO} ${SYSINSTALL} $${mod_name}.${libsuffix} \
-				 ${CMODULES}/$${mod_name}.so.${PKG_VERSION} && \
-	  echo === Installed ${CMODULES}/$${mod_name}.so.${PKG_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${PKG_VERSION} \
+				 ${CMODULES}/$${mod_name}.so.${FULL_VERSION} && \
+	  echo === Installed ${CMODULES}/$${mod_name}.so.${FULL_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} \
+			${CMODULES}/$${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR}.${PKG_MAJOR} && \
+	  echo === Linked ${CMODULES}/${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR}.${PKG_MAJOR} \
+		to $${mod_name}.so.${FULL_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} \
 			${CMODULES}/$${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR} && \
-	  echo === Linked ${CMODULES}/${m	od_name}.so.${KNO_MAJOR}.${KNO_MINOR} \
-		to $${mod_name}.so.${PKG_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${PKG_VERSION} \
+	  echo === Linked ${CMODULES}/${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR} \
+		to $${mod_name}.so.${FULL_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} \
 			${CMODULES}/$${mod_name}.so.${KNO_MAJOR} && \
 	  echo === Linked ${CMODULES}/$${mod_name}.so.${KNO_MAJOR} \
-		to $${mod_name}.so.${PKG_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${PKG_VERSION} ${CMODULES}/$${mod_name}.so && \
-	  echo === Linked ${CMODULES}/$${mod_name}.so to $${mod_name}.so.${PKG_VERSION}; \
+		to $${mod_name}.so.${FULL_VERSION} && \
+	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} ${CMODULES}/$${mod_name}.so && \
+	  echo === Linked ${CMODULES}/$${mod_name}.so to $${mod_name}.so.${FULL_VERSION}; \
 	done;
 
 clean:
