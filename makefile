@@ -54,7 +54,6 @@ default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 	@$(MSG) CC $@
 %.so: %.o
 	$(MKSO) $(LDFLAGS) -o $@ $^ ${LDFLAGS}
-	@if test ! -z "${COPY_CMODS}"; then cp $@ ${COPY_CMODS}; fi;
 	@$(MSG) MKSO  $@ $<
 	@ln -sf $(@F) $(@D)/$(@F).${KNO_MAJOR}
 %.dylib: %.o makefile
@@ -62,7 +61,6 @@ default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 		`basename $(@F) .dylib`.${KNO_MAJOR}.dylib \
 		${CFLAGS} ${LDFLAGS} -o $@ $(DYLIB_FLAGS) \
 		$^
-	@if test ! -z "${COPY_CMODS}"; then cp $@ ${COPY_CMODS}; fi;
 	@$(MSG) MACLIBTOOL  $@ $<
 
 TAGS: exif.c qrcode.c imagick.c
