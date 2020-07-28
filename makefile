@@ -7,10 +7,12 @@ KNO_CFLAGS	::= -I. -fPIC $(shell ${KNOCONFIG} cflags)
 KNO_LDFLAGS	::= -fPIC $(shell ${KNOCONFIG} ldflags)
 PACKAGE_CFLAGS  ::= $(shell etc/pkc --cflags libexif) \
 		    $(shell etc/pkc --cflags libqrencode) \
+		    $(shell etc/pkc --cflags libpng) \
 		    $(shell etc/pkc --cflags ImageMagick) \
 		    $(shell etc/pkc --cflags MagickWand)
 PACKAGE_LDFLAGS ::= $(shell etc/pkc --libs libexif) \
 		    $(shell etc/pkc --libs libqrencode) \
+		    $(shell etc/pkc --libs libpng) \
 		    $(shell etc/pkc --libs ImageMagick) \
 		    $(shell etc/pkc --libs MagickWand)
 CFLAGS		::= ${CFLAGS} ${PACKAGE_CFLAGS} ${KNO_CFLAGS} 
