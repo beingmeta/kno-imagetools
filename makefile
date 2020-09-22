@@ -38,7 +38,8 @@ SUDO            ::= $(shell which sudo)
 MKSO		  = $(CC) -shared $(CFLAGS) $(LDFLAGS) $(LIBS)
 MSG		  = echo
 SYSINSTALL        = /usr/bin/install -c
-
+MACLIBTOOL	  = $(CC) -dynamiclib -single_module -undefined dynamic_lookup \
+			$(LDFLAGS)
 
 GPGID             = FE1BC737F9F323D732AA26330620266BE5AFF294
 CODENAME	::= $(shell ${KNOCONFIG} codename)
@@ -62,7 +63,7 @@ default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 	@$(MACLIBTOOL) -install_name \
 		`basename $(@F) .dylib`.${KNO_MAJOR}.dylib \
 		${CFLAGS} ${LDFLAGS} -o $@ $(DYLIB_FLAGS) \
-		$^
+		$<
 	@$(MSG) MACLIBTOOL  $@ $<
 
 TAGS: exif.c qrcode.c imagick.c
@@ -73,23 +74,7 @@ ${CMODULES}:
 
 install: build ${CMODULES}
 	@for mod_name in qrcode exif imagick; do \
-	  ${SUDO} ${SYSINSTALL} $${mod_name}.${libsuffix} \
-				 ${CMODULES}/$${mod_name}.so.${FULL_VERSION} && \
-	  echo === Installed ${CMODULES}/$${mod_name}.so.${FULL_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} \
-			${CMODULES}/$${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR}.${PKG_MAJOR} && \
-	  echo === Linked ${CMODULES}/${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR}.${PKG_MAJOR} \
-		to $${mod_name}.so.${FULL_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} \
-			${CMODULES}/$${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR} && \
-	  echo === Linked ${CMODULES}/${mod_name}.so.${KNO_MAJOR}.${KNO_MINOR} \
-		to $${mod_name}.so.${FULL_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} \
-			${CMODULES}/$${mod_name}.so.${KNO_MAJOR} && \
-	  echo === Linked ${CMODULES}/$${mod_name}.so.${KNO_MAJOR} \
-		to $${mod_name}.so.${FULL_VERSION} && \
-	  ${SUDO} ln -sf $${mod_name}.so.${FULL_VERSION} ${CMODULES}/$${mod_name}.so && \
-	  echo === Linked ${CMODULES}/$${mod_name}.so to $${mod_name}.so.${FULL_VERSION}; \
+	  ${SUDO} u8_install_shared $${mod_name}.${libsuffix} ${CMODULES} ${FULL_VERSION} "${SYSINSTALL}"; \
 	done;
 
 clean:
