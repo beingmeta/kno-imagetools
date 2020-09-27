@@ -5,6 +5,7 @@ prefix		::= $(shell ${KNOCONFIG} prefix)
 libsuffix	::= $(shell ${KNOCONFIG} libsuffix)
 KNO_CFLAGS	::= -I. -fPIC $(shell ${KNOCONFIG} cflags)
 KNO_LDFLAGS	::= -fPIC $(shell ${KNOCONFIG} ldflags)
+KNO_LIBS	::= $(shell ${KNOCONFIG} libs)
 PACKAGE_CFLAGS  ::= $(shell etc/pkc --cflags libexif) \
 		    $(shell etc/pkc --cflags libqrencode) \
 		    $(shell etc/pkc --cflags libpng) \
