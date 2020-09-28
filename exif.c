@@ -246,8 +246,9 @@ static lispval exif_get(lispval x,lispval prop)
   if (KNO_PACKETP(x))
     exdata = exif_data_new_from_data(KNO_PACKET_DATA(x),KNO_PACKET_LENGTH(x));
   else if (KNO_STRINGP(x)) {
-    int n_bytes;
+    ssize_t n_bytes;
     unsigned char *data = u8_filedata(KNO_CSTRING(x),&n_bytes);
+    if (data == NULL) return KNO_ERROR;
     exdata = exif_data_new_from_data(KNO_PACKET_DATA(x),KNO_PACKET_LENGTH(x));
     u8_free(data);}
   else return kno_type_error(_("filename or packet"),"exif_get",x);
