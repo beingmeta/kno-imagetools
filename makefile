@@ -114,15 +114,16 @@ dist/debian.built: imagick.c qrcode.c exif.c makefile debian debian/changelog
 	touch $@
 
 dist/debian.signed: dist/debian.built
-	debsign --re-sign -k${GPGID} ../kno-imagetools_*.changes && \
-	touch $@
+	@if test "${GPGID}" = "none" || test -z "${GPGID}"; then  	\
+	  echo "Skipping debian signing";				\
+	  touch $@;							\
+	else 								\
+	  echo debsign --re-sign -k${GPGID} ../kno-imagetools_*.changes;\
+	  debsign --re-sign -k${GPGID} ../kno-imagetools_*.changes && 	\
+	  touch $@;							\
+	fi;
 
 deb debs dpkg dpkgs: dist/debian.signed
-
-dist/debian.updated: dist/debian.signed
-	dupload -c ./dist/dupload.conf --nomail --to bionic ../kno-imagetools_*.changes && touch $@
-
-update-apt: dist/debian.updated
 
 debinstall: dist/debian.signed
 	${SUDO} dpkg -i ../kno-imagetools_*.deb
