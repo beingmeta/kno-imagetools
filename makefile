@@ -53,9 +53,9 @@ APK_ARCH_DIR      = ${APKREPO}/staging/${ARCH}
 
 default build: qrcode.${libsuffix} exif.${libsuffix} imagick.${libsuffix}
 
-%.o: %.c makefile
-	@$(CC) $(CFLAGS) -o $@ -c $<
-	@$(MSG) CC $@
+%.o: %.c
+	@$(CC) $(CFLAGS) -D_FILEINFO="\"$(shell u8_fileinfo ./$< $(dirname $(pwd))/)\"" -o $@ -c $<
+	@$(MSG) CC $@ $<
 %.so: %.o
 	$(MKSO) $(LDFLAGS) -o $@ $^ ${LDFLAGS}
 	@$(MSG) MKSO  $@ $<
