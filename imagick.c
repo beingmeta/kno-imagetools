@@ -33,7 +33,7 @@
 
 u8_condition MagickWandError="ImageMagicWand error";
 kno_lisp_type kno_imagick_type;
-#define KNO_IMAGICK_TYPE kno_any_type
+#define KNO_IMAGICK_TYPE 0x2339d06500fe9b0L
 
 KNO_EXPORT int kno_init_imagick(void) KNO_LIBINIT_FN;
 
@@ -160,7 +160,7 @@ KNO_DEFCPRIM("file->imagick",file2imagick,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(FILE->IMAGICK *arg0*)` "
 	     "**undocumented**",
-	     "arg",kno_string_type,KNO_VOID)
+	     {"arg",kno_string_type,KNO_VOID})
 
 
 lispval file2imagick(lispval arg)
@@ -184,7 +184,7 @@ KNO_DEFCPRIM("packet->imagick",packet2imagick,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(PACKET->IMAGICK *arg0*)` "
 	     "**undocumented**",
-	     "arg",kno_packet_type,KNO_VOID)
+	     {"arg",kno_packet_type,KNO_VOID})
 
 lispval packet2imagick(lispval arg)
 {
@@ -208,8 +208,8 @@ KNO_DEFCPRIM("imagick->file",imagick2file,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK->FILE *arg0* [*arg1*])` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "filename",kno_string_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"filename",kno_string_type,KNO_VOID})
 
 lispval imagick2file(lispval imagickref,lispval filename)
 {
@@ -229,7 +229,7 @@ KNO_DEFCPRIM("imagick->packet",imagick2packet,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK->PACKET *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 
 lispval imagick2packet(lispval imagickref)
 {
@@ -252,7 +252,7 @@ KNO_DEFCPRIM("imagick/clone",imagick2imagick,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/CLONE *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 
 lispval imagick2imagick(lispval imagickref)
 {
@@ -350,8 +350,8 @@ KNO_DEFCPRIM("imagick/format",imagick_format,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "`(IMAGICK/FORMAT *arg0* *arg1*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "format",kno_string_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"format",kno_string_type,KNO_VOID})
 static lispval imagick_format(lispval imagickref,lispval format)
 {
   MagickBooleanType retval;
@@ -370,11 +370,11 @@ KNO_DEFCPRIM("imagick/fit",imagick_fit,
 	     KNO_MAX_ARGS(5)|KNO_MIN_ARGS(3),
 	     "`(IMAGICK/FIT *arg0* *arg1* *arg2* [*arg3*] [*arg4*])` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "w_arg",kno_fixnum_type,KNO_VOID,
-	     "h_arg",kno_fixnum_type,KNO_VOID,
-	     "filter",kno_any_type,KNO_VOID,
-	     "blur",kno_flonum_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"w_arg",kno_fixnum_type,KNO_VOID},
+	     {"h_arg",kno_fixnum_type,KNO_VOID},
+	     {"filter",kno_any_type,KNO_VOID},
+	     {"blur",kno_flonum_type,KNO_VOID})
 static lispval imagick_fit(lispval imagickref,lispval w_arg,lispval h_arg,
 			   lispval filter,lispval blur)
 {
@@ -410,8 +410,8 @@ KNO_DEFCPRIM("imagick/interlace",imagick_interlace,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "`(IMAGICK/INTERLACE *arg0* *arg1*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "scheme",kno_any_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"scheme",kno_any_type,KNO_VOID})
 static lispval imagick_interlace(lispval imagickref,lispval scheme)
 {
   MagickBooleanType retval;
@@ -440,12 +440,12 @@ KNO_DEFCPRIM("imagick/extend",imagick_extend,
 	     KNO_MAX_ARGS(6)|KNO_MIN_ARGS(3),
 	     "`(IMAGICK/EXTEND *arg0* *arg1* *arg2* [*arg3*] [*arg4*] [*arg5*])` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "w_arg",kno_fixnum_type,KNO_VOID,
-	     "h_arg",kno_fixnum_type,KNO_VOID,
-	     "x_arg",kno_fixnum_type,KNO_VOID,
-	     "y_arg",kno_fixnum_type,KNO_VOID,
-	     "bgcolor",kno_any_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"w_arg",kno_fixnum_type,KNO_VOID},
+	     {"h_arg",kno_fixnum_type,KNO_VOID},
+	     {"x_arg",kno_fixnum_type,KNO_VOID},
+	     {"y_arg",kno_fixnum_type,KNO_VOID},
+	     {"bgcolor",kno_any_type,KNO_VOID})
 static lispval imagick_extend(lispval imagickref,lispval w_arg,lispval h_arg,
 			      lispval x_arg,lispval y_arg,
 			      lispval bgcolor)
@@ -479,9 +479,9 @@ KNO_DEFCPRIM("imagick/charcoal",imagick_charcoal,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(3),
 	     "`(IMAGICK/CHARCOAL *arg0* *arg1* *arg2*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "radius",kno_flonum_type,KNO_VOID,
-	     "sigma",kno_flonum_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"radius",kno_flonum_type,KNO_VOID},
+	     {"sigma",kno_flonum_type,KNO_VOID})
 static lispval imagick_charcoal(lispval imagickref,lispval radius,lispval sigma)
 {
   MagickBooleanType retval;
@@ -503,9 +503,9 @@ KNO_DEFCPRIM("imagick/emboss",imagick_emboss,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(3),
 	     "`(IMAGICK/EMBOSS *arg0* *arg1* *arg2*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "radius",kno_flonum_type,KNO_VOID,
-	     "sigma",kno_flonum_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"radius",kno_flonum_type,KNO_VOID},
+	     {"sigma",kno_flonum_type,KNO_VOID})
 static lispval imagick_emboss(lispval imagickref,lispval radius,lispval sigma)
 {
   MagickBooleanType retval;
@@ -527,9 +527,9 @@ KNO_DEFCPRIM("imagick/blur",imagick_blur,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(3),
 	     "`(IMAGICK/BLUR *arg0* *arg1* *arg2*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "radius",kno_flonum_type,KNO_VOID,
-	     "sigma",kno_flonum_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"radius",kno_flonum_type,KNO_VOID},
+	     {"sigma",kno_flonum_type,KNO_VOID})
 static lispval imagick_blur(lispval imagickref,lispval radius,lispval sigma)
 {
   MagickBooleanType retval;
@@ -551,8 +551,8 @@ KNO_DEFCPRIM("imagick/edge",imagick_edge,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "`(IMAGICK/EDGE *arg0* *arg1*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "radius",kno_flonum_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"radius",kno_flonum_type,KNO_VOID})
 static lispval imagick_edge(lispval imagickref,lispval radius)
 {
   MagickBooleanType retval;
@@ -575,11 +575,11 @@ KNO_DEFCPRIM("imagick/crop",imagick_crop,
 	     KNO_MAX_ARGS(5)|KNO_MIN_ARGS(3),
 	     "`(IMAGICK/CROP *arg0* *arg1* *arg2* [*arg3*] [*arg4*])` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "width",kno_fixnum_type,KNO_VOID,
-	     "height",kno_fixnum_type,KNO_INT(0),
-	     "xoff",kno_fixnum_type,KNO_INT(0),
-	     "yoff",kno_fixnum_type,KNO_INT(0))
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"width",kno_fixnum_type,KNO_VOID},
+	     {"height",kno_fixnum_type,KNO_INT(0)},
+	     {"xoff",kno_fixnum_type,KNO_INT(0)},
+	     {"yoff",kno_fixnum_type,KNO_INT(0)})
 static lispval imagick_crop(lispval imagickref,
 			    lispval width,lispval height,
 			    lispval xoff,lispval yoff)
@@ -604,7 +604,7 @@ KNO_DEFCPRIM("imagick/flip",imagick_flip,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/FLIP *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 static lispval imagick_flip(lispval imagickref)
 {
   MagickBooleanType retval;
@@ -625,7 +625,7 @@ KNO_DEFCPRIM("imagick/flop",imagick_flop,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/FLOP *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 static lispval imagick_flop(lispval imagickref)
 {
   MagickBooleanType retval;
@@ -646,7 +646,7 @@ KNO_DEFCPRIM("imagick/equalize",imagick_equalize,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/EQUALIZE *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 static lispval imagick_equalize(lispval imagickref)
 {
   MagickBooleanType retval;
@@ -667,7 +667,7 @@ KNO_DEFCPRIM("imagick/despeckle",imagick_despeckle,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/DESPECKLE *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 static lispval imagick_despeckle(lispval imagickref)
 {
   MagickBooleanType retval;
@@ -688,7 +688,7 @@ KNO_DEFCPRIM("imagick/enhance",imagick_enhance,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/ENHANCE *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 static lispval imagick_enhance(lispval imagickref)
 {
   MagickBooleanType retval;
@@ -709,7 +709,7 @@ KNO_DEFCPRIM("imagick/deskew",imagick_deskew,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "`(IMAGICK/DESKEW *arg0* *arg1*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
 	     "threshold",kno_flonum_type,KNO_VOID)
 static lispval imagick_deskew(lispval imagickref,lispval threshold)
 {
@@ -732,8 +732,8 @@ KNO_DEFCPRIM("imagick/display",imagick_display,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/DISPLAY *arg0* [*arg1*])` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "display_name",kno_string_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"display_name",kno_string_type,KNO_VOID})
 static lispval imagick_display(lispval imagickref,lispval display_name)
 {
   MagickBooleanType retval;
@@ -756,9 +756,9 @@ KNO_DEFCPRIM("imagick/get",imagick_get,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(2),
 	     "`(IMAGICK/GET *arg0* *arg1* [*arg2*])` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID,
-	     "property",kno_any_type,KNO_VOID,
-	     "dflt",kno_any_type,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
+	     {"property",kno_any_type,KNO_VOID},
+	     {"dflt",kno_any_type,KNO_VOID})
 static lispval imagick_get(lispval imagickref,lispval property,lispval dflt)
 {
   struct KNO_IMAGICK *wrapper=
@@ -781,7 +781,7 @@ KNO_DEFCPRIM("imagick/keys",imagick_getkeys,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "`(IMAGICK/KEYS *arg0*)` "
 	     "**undocumented**",
-	     "imagickref",KNO_IMAGICK_TYPE,KNO_VOID)
+	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
 static lispval imagick_getkeys(lispval imagickref)
 {
   struct KNO_IMAGICK *wrapper=
@@ -828,6 +828,7 @@ int kno_init_imagick()
   kno_imagick_type = kno_register_cons_type("IMAGICK");
   kno_unparsers[kno_imagick_type]=unparse_imagick;
   kno_recyclers[kno_imagick_type]=recycle_imagick;
+  kno_add_type_alias(KNO_IMAGICK_TYPE,kno_imagick_type);
 
   init_symbols();
 
@@ -876,56 +877,25 @@ static void link_local_cprims()
   KNO_LINK_CPRIM("imagick->file",imagick2file,2,imagick_module);
   KNO_LINK_CPRIM("packet->imagick",packet2imagick,1,imagick_module);
   KNO_LINK_CPRIM("file->imagick",file2imagick,1,imagick_module);
-  KNO_LINK_TYPED("imagick->file",imagick2file,2,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_string_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick->packet",imagick2packet,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/clone",imagick2imagick,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/format",imagick_format,2,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_string_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/fit",imagick_fit,5,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_fixnum_type,KNO_VOID,
-		 kno_fixnum_type,KNO_VOID,kno_any_type,KNO_VOID,
-		 kno_flonum_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/interlace",imagick_interlace,2,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_any_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/extend",imagick_extend,6,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_fixnum_type,KNO_VOID,
-		 kno_fixnum_type,KNO_VOID,kno_fixnum_type,KNO_VOID,
-		 kno_fixnum_type,KNO_VOID,kno_any_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/charcoal",imagick_charcoal,3,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_flonum_type,KNO_VOID,
-		 kno_flonum_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/emboss",imagick_emboss,3,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_flonum_type,KNO_VOID,
-		 kno_flonum_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/blur",imagick_blur,3,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_flonum_type,KNO_VOID,
-		 kno_flonum_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/edge",imagick_edge,2,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_flonum_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/crop",imagick_crop,5,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_fixnum_type,KNO_VOID,
-		 kno_fixnum_type,KNO_CPP_INT(0),kno_fixnum_type,KNO_CPP_INT(0),
-		 kno_fixnum_type,KNO_CPP_INT(0));
-  KNO_LINK_TYPED("imagick/flip",imagick_flip,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/flop",imagick_flop,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/equalize",imagick_equalize,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/despeckle",imagick_despeckle,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/enhance",imagick_enhance,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/deskew",imagick_deskew,2,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_flonum_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/display",imagick_display,2,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_string_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/get",imagick_get,3,imagick_module,
-		 kno_imagick_type,KNO_VOID,kno_any_type,KNO_VOID,
-		 kno_any_type,KNO_VOID);
-  KNO_LINK_TYPED("imagick/keys",imagick_getkeys,1,imagick_module,
-		 kno_imagick_type,KNO_VOID);
+  KNO_LINK_CPRIM("imagick->file",imagick2file,2,imagick_module);
+  KNO_LINK_CPRIM("imagick->packet",imagick2packet,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/clone",imagick2imagick,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/format",imagick_format,2,imagick_module);
+  KNO_LINK_CPRIM("imagick/fit",imagick_fit,5,imagick_module);
+  KNO_LINK_CPRIM("imagick/interlace",imagick_interlace,2,imagick_module);
+  KNO_LINK_CPRIM("imagick/extend",imagick_extend,6,imagick_module);
+  KNO_LINK_CPRIM("imagick/charcoal",imagick_charcoal,3,imagick_module);
+  KNO_LINK_CPRIM("imagick/emboss",imagick_emboss,3,imagick_module);
+  KNO_LINK_CPRIM("imagick/blur",imagick_blur,3,imagick_module);
+  KNO_LINK_CPRIM("imagick/edge",imagick_edge,2,imagick_module);
+  KNO_LINK_CPRIM("imagick/crop",imagick_crop,5,imagick_module);
+  KNO_LINK_CPRIM("imagick/flip",imagick_flip,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/flop",imagick_flop,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/equalize",imagick_equalize,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/despeckle",imagick_despeckle,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/enhance",imagick_enhance,1,imagick_module);
+  KNO_LINK_CPRIM("imagick/deskew",imagick_deskew,2,imagick_module);
+  KNO_LINK_CPRIM("imagick/display",imagick_display,2,imagick_module);
+  KNO_LINK_CPRIM("imagick/get",imagick_get,3,imagick_module);
+  KNO_LINK_CPRIM("imagick/keys",imagick_getkeys,1,imagick_module);
 }

@@ -242,8 +242,8 @@ KNO_DEFCPRIM("exif-get",exif_get,
  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
  "`(EXIF-GET *arg0* [*arg1*])` "
  "**undocumented**",
- "x",kno_any_type,KNO_VOID,
- "prop",kno_any_type,KNO_VOID)
+	     {"x",kno_any_type,KNO_VOID},
+	     {"prop",kno_any_type,KNO_VOID})
 static lispval exif_get(lispval x,lispval prop)
 {
   ExifData *exdata;
