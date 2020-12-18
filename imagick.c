@@ -825,10 +825,9 @@ int kno_init_imagick()
   else imagick_init = u8_millitime();
   imagick_module = kno_new_cmodule("imagick",0,kno_init_imagick);
 
-  kno_imagick_type = kno_register_cons_type("IMAGICK");
+  kno_imagick_type = kno_register_cons_type("imagick",KNO_IMAGICK_TYPE);
   kno_unparsers[kno_imagick_type]=unparse_imagick;
   kno_recyclers[kno_imagick_type]=recycle_imagick;
-  kno_add_type_alias(KNO_IMAGICK_TYPE,kno_imagick_type);
 
   init_symbols();
 
