@@ -33,7 +33,7 @@
 
 u8_condition MagickWandError="ImageMagicWand error";
 kno_lisp_type kno_imagick_type;
-#define KNO_IMAGICK_TYPE 0x2339d06500fe9b0L
+#define KNO_IMAGICK_TYPE 0x1c3e8812
 
 KNO_EXPORT int kno_init_imagick(void) KNO_LIBINIT_FN;
 
