@@ -156,7 +156,7 @@ static void recycle_imagick(struct KNO_RAW_CONS *c)
   DestroyMagickWand(wrapper->wand);
   if (!(KNO_STATIC_CONSP(c))) u8_free(c);
 }
-KNO_DEFCPRIM("file->imagick",file2imagick,
+DEFC_PRIM("file->imagick",file2imagick,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"arg",kno_string_type,KNO_VOID})
@@ -179,7 +179,7 @@ lispval file2imagick(lispval arg)
     U8_CLEAR_ERRNO();
     return (lispval)imagickref;}
 }
-KNO_DEFCPRIM("packet->imagick",packet2imagick,
+DEFC_PRIM("packet->imagick",packet2imagick,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"arg",kno_packet_type,KNO_VOID})
@@ -202,7 +202,7 @@ lispval packet2imagick(lispval arg)
     U8_CLEAR_ERRNO();
     return (lispval)imagickref;}
 }
-KNO_DEFCPRIM("imagick->file",imagick2file,
+DEFC_PRIM("imagick->file",imagick2file,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -222,7 +222,7 @@ lispval imagick2file(lispval imagickref,lispval filename)
     U8_CLEAR_ERRNO();
     return kno_incref(imagickref);}
 }
-KNO_DEFCPRIM("imagick->packet",imagick2packet,
+DEFC_PRIM("imagick->packet",imagick2packet,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -244,7 +244,7 @@ lispval imagick2packet(lispval imagickref)
     U8_CLEAR_ERRNO();
     return packet;}
 }
-KNO_DEFCPRIM("imagick/clone",imagick2imagick,
+DEFC_PRIM("imagick/clone",imagick2imagick,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -341,7 +341,7 @@ static FilterTypes getfilter(lispval arg,u8_string cxt)
 }
 
 
-KNO_DEFCPRIM("imagick/format",imagick_format,
+DEFC_PRIM("imagick/format",imagick_format,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -360,7 +360,7 @@ static lispval imagick_format(lispval imagickref,lispval format)
 }
 
 
-KNO_DEFCPRIM("imagick/fit",imagick_fit,
+DEFC_PRIM("imagick/fit",imagick_fit,
 	     KNO_MAX_ARGS(5)|KNO_MIN_ARGS(3),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -399,7 +399,7 @@ static lispval imagick_fit(lispval imagickref,lispval w_arg,lispval h_arg,
 }
 
 
-KNO_DEFCPRIM("imagick/interlace",imagick_interlace,
+DEFC_PRIM("imagick/interlace",imagick_interlace,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -428,7 +428,7 @@ static lispval imagick_interlace(lispval imagickref,lispval scheme)
 }
 
 
-KNO_DEFCPRIM("imagick/extend",imagick_extend,
+DEFC_PRIM("imagick/extend",imagick_extend,
 	     KNO_MAX_ARGS(6)|KNO_MIN_ARGS(3),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -466,7 +466,7 @@ static lispval imagick_extend(lispval imagickref,lispval w_arg,lispval h_arg,
 }
 
 
-KNO_DEFCPRIM("imagick/charcoal",imagick_charcoal,
+DEFC_PRIM("imagick/charcoal",imagick_charcoal,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(3),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -489,7 +489,7 @@ static lispval imagick_charcoal(lispval imagickref,lispval radius,lispval sigma)
 }
 
 
-KNO_DEFCPRIM("imagick/emboss",imagick_emboss,
+DEFC_PRIM("imagick/emboss",imagick_emboss,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(3),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -512,7 +512,7 @@ static lispval imagick_emboss(lispval imagickref,lispval radius,lispval sigma)
 }
 
 
-KNO_DEFCPRIM("imagick/blur",imagick_blur,
+DEFC_PRIM("imagick/blur",imagick_blur,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(3),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -535,7 +535,7 @@ static lispval imagick_blur(lispval imagickref,lispval radius,lispval sigma)
 }
 
 
-KNO_DEFCPRIM("imagick/edge",imagick_edge,
+DEFC_PRIM("imagick/edge",imagick_edge,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -558,7 +558,7 @@ static lispval imagick_edge(lispval imagickref,lispval radius)
 
 
 
-KNO_DEFCPRIM("imagick/crop",imagick_crop,
+DEFC_PRIM("imagick/crop",imagick_crop,
 	     KNO_MAX_ARGS(5)|KNO_MIN_ARGS(3),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -586,7 +586,7 @@ static lispval imagick_crop(lispval imagickref,
 }
 
 
-KNO_DEFCPRIM("imagick/flip",imagick_flip,
+DEFC_PRIM("imagick/flip",imagick_flip,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -606,7 +606,7 @@ static lispval imagick_flip(lispval imagickref)
 }
 
 
-KNO_DEFCPRIM("imagick/flop",imagick_flop,
+DEFC_PRIM("imagick/flop",imagick_flop,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -626,7 +626,7 @@ static lispval imagick_flop(lispval imagickref)
 }
 
 
-KNO_DEFCPRIM("imagick/equalize",imagick_equalize,
+DEFC_PRIM("imagick/equalize",imagick_equalize,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -646,7 +646,7 @@ static lispval imagick_equalize(lispval imagickref)
 }
 
 
-KNO_DEFCPRIM("imagick/despeckle",imagick_despeckle,
+DEFC_PRIM("imagick/despeckle",imagick_despeckle,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -666,7 +666,7 @@ static lispval imagick_despeckle(lispval imagickref)
 }
 
 
-KNO_DEFCPRIM("imagick/enhance",imagick_enhance,
+DEFC_PRIM("imagick/enhance",imagick_enhance,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})
@@ -686,7 +686,7 @@ static lispval imagick_enhance(lispval imagickref)
 }
 
 
-KNO_DEFCPRIM("imagick/deskew",imagick_deskew,
+DEFC_PRIM("imagick/deskew",imagick_deskew,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(2),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -708,7 +708,7 @@ static lispval imagick_deskew(lispval imagickref,lispval threshold)
 }
 
 
-KNO_DEFCPRIM("imagick/display",imagick_display,
+DEFC_PRIM("imagick/display",imagick_display,
 	     KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -731,7 +731,7 @@ static lispval imagick_display(lispval imagickref,lispval display_name)
 }
 
 
-KNO_DEFCPRIM("imagick/get",imagick_get,
+DEFC_PRIM("imagick/get",imagick_get,
 	     KNO_MAX_ARGS(3)|KNO_MIN_ARGS(2),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID},
@@ -755,7 +755,7 @@ static lispval imagick_get(lispval imagickref,lispval property,lispval dflt)
 }
 
 
-KNO_DEFCPRIM("imagick/keys",imagick_getkeys,
+DEFC_PRIM("imagick/keys",imagick_getkeys,
 	     KNO_MAX_ARGS(1)|KNO_MIN_ARGS(1),
 	     "**undocumented**",
 	     {"imagickref",KNO_IMAGICK_TYPE,KNO_VOID})

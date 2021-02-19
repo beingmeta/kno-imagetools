@@ -151,7 +151,7 @@ static lispval write_png_packet(QRcode *qrcode,lispval opts)
 }
 
 
-KNO_DEFCPRIM("qrencode",qrencode_prim,
+DEFC_PRIM("qrencode",qrencode_prim,
  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
  "**undocumented**",
 	     {"string",kno_string_type,KNO_VOID},

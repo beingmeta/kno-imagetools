@@ -238,7 +238,7 @@ static struct TAGINFO {
   {0, NULL,KNO_VOID}};
 
 
-KNO_DEFCPRIM("exif-get",exif_get,
+DEFC_PRIM("exif-get",exif_get,
  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
  "**undocumented**",
 	     {"x",kno_any_type,KNO_VOID},

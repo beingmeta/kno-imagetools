@@ -1,0 +1,14 @@
+Source: kno-imagetools
+Priority: optional
+Maintainer: Ken Haase <kh@beingmeta.com>
+Build-Depends: debhelper (>= 8.0.0), autotools-dev, debsigs, devscripts, libu8-dev, libexif-dev, libqrencode-dev, libmagickwand-dev, kno-dev (>= @KNO_MAJOR@) 
+Standards-Version: 3.9.4
+Section: libs
+Homepage: http://www.beingmeta.com/
+
+Package: kno-imagetools
+Section: libdevel
+Architecture: any
+Depends: libexif12, libmagickwand | libmagickwand-6.q16-6 | libmagickwand-6.q16-3 | libmagickwand-6.q16-2  | libmagickwand5, libqrencode4 | libqrencode3, kno-core (>= @KNO_MAJOR@)
+Description: Imagetools module for KNO
+
