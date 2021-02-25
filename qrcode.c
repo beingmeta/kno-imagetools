@@ -4,6 +4,7 @@
    This implements Kno bindings to the libqrencode library.
 
    Copyright (C) 2009-2019 beingmeta, inc.
+   Copyright (C) 2020-2021 beingmeta, LLC
 */
 
 #ifndef _FILEINFO
@@ -152,10 +153,10 @@ static lispval write_png_packet(QRcode *qrcode,lispval opts)
 
 
 DEFC_PRIM("qrencode",qrencode_prim,
- KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
- "**undocumented**",
-	     {"string",kno_string_type,KNO_VOID},
- "opts",kno_any_type,KNO_VOID)
+	  KNO_MAX_ARGS(2)|KNO_MIN_ARGS(1),
+	  "**undocumented**",
+	  {"string",kno_string_type,KNO_VOID},
+	  "opts",kno_any_type,KNO_VOID)
 static lispval qrencode_prim(lispval string,lispval opts)
 {
   lispval level_arg = kno_getopt(opts,robustness_symbol,KNO_FALSE);
