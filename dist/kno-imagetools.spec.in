@@ -1,0 +1,42 @@
+Name:           kno-@PKG_NAME@
+Version:        @VERSION@
+Release:        @VERSION@%{?dist}
+Summary:        ODBC bindings for kno
+
+Group:          System Environment/Libraries
+License:        GNU GPL
+URL:            http://www.beingmeta.com/
+Source0:        kno-@PKG_NAME@.tar
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:  libu8-devel kno-devel libexif-devel libqrencode-devel libpng-devel ImageMagick-devel
+Requires:       libu8 >= 3.0 kno >= 2106 qrencode-libs libexif libpng ImageMagick-libs 
+
+%description
+This provides modules for 
+
+%prep
+%setup -q
+
+%build
+make %{?_smp_mflags}
+
+%pre
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make install SUDO= DESTDIR=$RPM_BUILD_ROOT
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
+%files
+%{_libdir}/kno/exif.so*
+%{_libdir}/kno/qrcode.so*
+%{_libdir}/kno/imagick.so*
+%doc
+
