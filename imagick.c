@@ -3,7 +3,7 @@
 /* imagemagick.c
    This implements Kno bindings to the MagickWand API
    Copyright (C) 2012-2019 beingmeta, inc.
-   Copyright (C) 2020-2021 beingmeta, LLC
+   Copyright (C) 2020-2022 beingmeta, LLC
 */
 
 #ifndef _FILEINFO
